@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cxmply – Minecraft Optimizer</title>
+<link rel="icon" href="favicon.ico" type="image/x-icon" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&display=swap" rel="stylesheet" />
+  
+  <style>
+    /* Reset & basics */
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+    body, h1, h2, h3, p, ul {
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+      color: #eee;
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+    /* Scrollbar (Webkit) */
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #111;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #ffd700cc;
+      border-radius: 10px;
+    }
+
+    /* NAVIGATION BAR */
+    nav {
+      background: rgba(17, 17, 17, 0.95);
+      border-bottom: 2px solid #FFD700;
+      padding: 15px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 999;
+      box-shadow: 0 0 15px #ffd70033;
+      user-select: none;
+      transition: background-color 0.3s ease;
+    }
+    nav:hover {
+      background: rgba(25, 25, 25, 0.98);
+    }
+    nav .logo {
+      font-weight: 900;
+      font-size: 2rem;
+      color: #FFD700;
+      letter-spacing: 3px;
+      text-shadow: 0 0 12px #ffd700dd;
+      cursor: default;
+      user-select: none;
+    }
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 32px;
+      font-weight: 700;
+      font-size: 1rem;
+    }
+    nav ul li a {
+      color: #ddd;
+      padding: 8px 14px;
+      border-radius: 8px;
+      transition: 
+        color 0.3s ease, 
+        background-color 0.3s ease, 
+        box-shadow 0.4s ease;
+      position: relative;
+    }
+    nav ul li a[aria-current="page"] {
+      color: #FFD700;
+      font-weight: 800;
+      text-shadow: 0 0 10px #ffd700cc;
+    }
+    nav ul li a:hover,
+    nav ul li a:focus {
+      background-color: #FFD700;
+      color: #0a0a0a;
+      outline: none;
+      box-shadow: 0 0 14px #ffd700cc;
+      transform: scale(1.05);
+      font-weight: 800;
+      transition-duration: 0.2s;
+    }
+
+    /* HERO SECTION */
+    .hero {
+      flex-grow: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: radial-gradient(circle at center, #1a1a1a 0%, #000000 80%);
+      text-align: center;
+      padding: 0 20px;
+      position: relative;
+      overflow: hidden;
+    }
+    /* subtle floating glow animation behind hero */
+    .hero::before {
+      content: "";
+      position: absolute;
+      top: -30%;
+      left: 50%;
+      width: 140%;
+      height: 140%;
+      background: radial-gradient(circle, #ffd70033 0%, transparent 70%);
+      transform: translateX(-50%) translateY(0);
+      animation: floatGlow 10s ease-in-out infinite;
+      filter: blur(100px);
+      z-index: 0;
+    }
+    @keyframes floatGlow {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(15px); }
+    }
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 650px;
+    }
+    .hero-content h1 {
+      font-size: 5rem;
+      font-weight: 900;
+      color: #FFD700;
+      text-shadow: 0 0 24px #ffd700ee;
+      letter-spacing: 6px;
+      user-select: none;
+      margin-bottom: 0.25rem;
+      animation: textGlow 3s ease-in-out infinite alternate;
+    }
+    @keyframes textGlow {
+      0% {
+        text-shadow: 0 0 14px #ffd700cc, 0 0 32px #ffd700bb;
+      }
+      100% {
+        text-shadow: 0 0 30px #fff84ddd, 0 0 60px #ffd700ee;
+      }
+    }
+    .hero-content p {
+      font-size: 1.5rem;
+      margin-bottom: 40px;
+      color: #eee;
+      letter-spacing: 1.2px;
+      text-shadow: 0 0 6px #ffd700cc;
+    }
+    .btn {
+      display: inline-block;
+      background-color: #FFD700;
+      color: #0a0a0a;
+      font-weight: 700;
+      padding: 18px 48px;
+      border-radius: 14px;
+      box-shadow: 0 6px 20px rgba(255 215 0 / 0.7);
+      transition: background-color 0.3s ease, transform 0.25s ease, box-shadow 0.4s ease;
+      cursor: pointer;
+      user-select: none;
+      letter-spacing: 1.5px;
+      font-size: 1.25rem;
+      text-transform: uppercase;
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+    }
+    .btn::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: -60%;
+      width: 40%;
+      height: 200%;
+      background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+      transform: translateY(-50%) rotate(25deg);
+      filter: blur(6px);
+      opacity: 0.7;
+      transition: left 0.8s ease;
+      z-index: 2;
+    }
+    .btn:hover::before,
+    .btn:focus::before {
+      left: 120%;
+      transition: left 0.6s ease;
+    }
+    .btn:hover,
+    .btn:focus {
+      background-color: #e6c200;
+      box-shadow: 0 10px 30px rgba(255 215 0 / 0.9);
+      transform: scale(1.1);
+      outline: none;
+      letter-spacing: 1.8px;
+    }
+
+    /* FEATURES SECTION */
+    section#features {
+      padding: 90px 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+      user-select: none;
+    }
+    section#features h2 {
+      font-size: 3rem;
+      margin-bottom: 60px;
+      color: #FFD700;
+      text-shadow: 0 0 12px #ffd700cc;
+      letter-spacing: 2px;
+      font-weight: 900;
+      user-select: text;
+    }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
+      gap: 45px;
+    }
+    .feature-card {
+      background: #111111;
+      border: 1.5px solid #222222;
+      padding: 40px 30px;
+      border-radius: 18px;
+      color: #ddd;
+      box-shadow: 0 0 15px #00000099;
+      transition: 
+        border-color 0.4s ease, 
+        box-shadow 0.4s ease,
+        transform 0.4s ease;
+      cursor: default;
+      position: relative;
+      overflow: hidden;
+    }
+    .feature-card::before {
+      content: "";
+      position: absolute;
+      top: -45%;
+      left: -20%;
+      width: 150%;
+      height: 120%;
+      background: radial-gradient(circle at center, #ffd70033 30%, transparent 80%);
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      pointer-events: none;
+      border-radius: 100%;
+      filter: blur(60px);
+      z-index: 1;
+    }
+    .feature-card:hover::before {
+      opacity: 1;
+    }
+    .feature-card:hover {
+      border-color: #FFD700;
+      box-shadow: 0 0 30px #ffd700bb;
+      transform: translateY(-8px);
+      z-index: 5;
+    }
+    .feature-card .icon {
+      font-size: 3rem;
+      margin-bottom: 22px;
+      color: #FFD700;
+      user-select: none;
+      position: relative;
+      z-index: 2;
+      text-shadow: 0 0 10px #ffd700cc;
+    }
+    .feature-card h3 {
+      font-size: 1.8rem;
+      margin-bottom: 14px;
+      color: #FFD700;
+      font-weight: 700;
+      text-shadow: 0 0 12px #ffd700cc;
+      user-select: text;
+      position: relative;
+      z-index: 2;
+    }
+    .feature-card p {
+      font-size: 1.05rem;
+      color: #ccc;
+      line-height: 1.5;
+      user-select: text;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* FOOTER */
+    footer {
+      background: #111111;
+      text-align: center;
+      padding: 30px 15px;
+      font-size: 0.95rem;
+      color: #777777;
+      user-select: none;
+      letter-spacing: 0.8px;
+      border-top: 1px solid #222222;
+      box-shadow: inset 0 5px 15px rgb(255 215 0 / 0.15);
+      font-family: 'Montserrat', sans-serif;
+      transition: color 0.3s ease;
+    }
+    footer p {
+      margin: 6px 0;
+    }
+    footer p a {
+      color: #FFD700;
+      text-decoration: none;
+      margin: 0 10px;
+      font-weight: 600;
+      transition: color 0.3s ease;
+    }
+    footer p a:hover,
+    footer p a:focus {
+      color: #e6c200;
+      outline: none;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 720px) {
+      .hero-content h1 {
+        font-size: 3.8rem;
+        letter-spacing: 4px;
+      }
+      .hero-content p {
+        font-size: 1.2rem;
+      }
+      .btn {
+        padding: 14px 36px;
+        font-size: 1.1rem;
+      }
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    @media (max-width: 400px) {
+      .hero-content h1 {
+        font-size: 3rem;
+        letter-spacing: 3px;
+      }
+      .btn {
+        padding: 12px 28px;
+        font-size: 1rem;
+      }
+      nav ul {
+        gap: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVIGATION BAR -->
+  <nav>
+    <div class="logo">Cxmply</div>
+    <ul>
+      <li><a href="index.html" aria-current="page">Home</a></li>
+      <li><a href="pricing.html">Pricing</a></li>
+      <li><a href="download.html">Download</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="hero-content" role="banner">
+      <h1>Cxmply</h1>
+      <p>The Ultimate Minecraft FPS & Ping Optimizer</p>
+      <a href="download.html" class="btn" role="button" aria-label="Boost My Minecraft Now">🚀 Boost My Minecraft</a>
+    </div>
+  </header>
+
+  <!-- FEATURES -->
+  <section class="features" id="features" role="region" aria-labelledby="features-title">
+    <h2 id="features-title">⚙️ Cxmply Features</h2>
+    <div class="features-grid">
+      <article class="feature-card" tabindex="0" aria-label="FPS Boost feature">
+        <div class="icon" aria-hidden="true">⚡</div>
+        <h3>FPS Boost</h3>
+        <p>Clean JVM arguments, modded config presets, low-lag options.txt setups — max frames every fight.</p>
+      </article>
+      <article class="feature-card" tabindex="0" aria-label="Ping Reduction feature">
+        <div class="icon" aria-hidden="true">📡</div>
+        <h3>Ping Reduction</h3>
+        <p>Advanced DNS tuning, packet routing optimization, and faster server connections.</p>
+      </article>
+      <article class="feature-card" tabindex="0" aria-label="PvP Enhancer feature">
+        <div class="icon" aria-hidden="true">🎮</div>
+        <h3>PvP Enhancer</h3>
+        <p>Better hit reg, reduced input delay, and fine-tuned combat responsiveness for 1.7–1.8 PvP.</p>
+      </article>
+      <article class="feature-card" tabindex="0" aria-label="System Clean feature">
+        <div class="icon" aria-hidden="true">🖥️</div>
+        <h3>System Clean</h3>
+        <p>Power plan tweaks, debloating scripts, and real-time performance tweaks built for Minecraft.</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer role="contentinfo">
+    <p>© 2025 Cxmply. Built for the Minecraft PvP community.</p>
+    <p>
+      <a href="privacy.html" aria-label="Privacy Policy">Privacy Policy</a> |
+      <a href="terms.html" aria-label="Terms of Service">Terms of Service</a> |
+      <a href="https://discord.gg/YOURINVITE" target="_blank" rel="noopener noreferrer" aria-label="Join Discord">Discord</a>
+    </p>
+  </footer>
+</body>
+</html>

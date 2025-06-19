@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cxmply – Download</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&display=swap" rel="stylesheet" />
+  <style>
+    /* RESET & BASICS */
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+    body, h1, h2, h3, p, ul, ol, nav, footer, section {
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: #0a0a0a url('https://www.transparenttextures.com/patterns/dark-mosaic.png') repeat;
+      color: #eee;
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      scroll-behavior: smooth;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+    /* NAVIGATION */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(17,17,17,0.85);
+      backdrop-filter: saturate(180%) blur(12px);
+      border-bottom: 2px solid #FFD700;
+      padding: 18px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 200;
+      user-select: none;
+      box-shadow: 0 2px 10px rgb(255 215 0 / 0.15);
+    }
+    nav .logo {
+      font-weight: 900;
+      font-size: 1.9rem;
+      color: #FFD700;
+      letter-spacing: 2.5px;
+      user-select: none;
+      text-shadow: 0 0 8px #ffd700cc;
+    }
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 36px;
+      font-weight: 600;
+      font-size: 1rem;
+    }
+    nav ul li a {
+      color: #ddd;
+      padding: 10px 14px;
+      border-radius: 10px;
+      transition: color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+      user-select: none;
+      display: inline-block;
+    }
+    nav ul li a:hover,
+    nav ul li a:focus {
+      background-color: #FFD700;
+      color: #0a0a0a;
+      outline: none;
+      box-shadow: 0 0 15px #ffd700dd;
+      font-weight: 700;
+      transform: scale(1.05);
+      transition: transform 0.2s ease;
+    }
+    nav ul li a[aria-current="page"] {
+      color: #FFD700;
+      font-weight: 700;
+      box-shadow: 0 0 12px #ffd700bb inset;
+    }
+
+    /* HERO */
+    .hero {
+      margin-top: 72px; /* nav height + margin */
+      height: 30vh;
+      background: radial-gradient(circle at center, #1a1a1a, #000000);
+      box-shadow: inset 0 0 40px #ffd700aa;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 0 20px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle, rgba(255,215,0,0.15) 20%, transparent 70%);
+      pointer-events: none;
+      mix-blend-mode: screen;
+      filter: blur(30px);
+      animation: pulseGlow 5s infinite alternate ease-in-out;
+    }
+    @keyframes pulseGlow {
+      0% {opacity: 0.4;}
+      100% {opacity: 0.9;}
+    }
+    .hero-content {
+      position: relative;
+      z-index: 10;
+    }
+    .hero-content h1 {
+      font-size: 3.8rem;
+      color: #FFD700;
+      text-shadow: 0 0 18px #ffd700cc;
+      font-weight: 900;
+      letter-spacing: 2px;
+    }
+    .hero-content a.btn-outline {
+      margin-top: 16px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      padding: 14px 38px;
+      border: 2px solid #FFD700;
+      border-radius: 14px;
+      background: transparent;
+      color: #FFD700;
+      box-shadow: 0 0 12px #ffd700aa;
+      transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+      display: inline-block;
+      user-select: none;
+    }
+    .hero-content a.btn-outline:hover,
+    .hero-content a.btn-outline:focus {
+      background-color: #FFD700;
+      color: #0a0a0a;
+      transform: scale(1.1);
+      box-shadow: 0 0 25px #ffd700ff;
+      outline: none;
+    }
+
+    /* DOWNLOAD SECTION */
+    section.download {
+      max-width: 760px;
+      margin: 60px auto 80px auto;
+      padding: 0 20px;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    section.download h2 {
+      font-size: 2.8rem;
+      color: #FFD700;
+      margin-bottom: 14px;
+      text-shadow: 0 0 8px #ffd700bb;
+      letter-spacing: 1.5px;
+    }
+    section.download p {
+      font-size: 1.15rem;
+      color: #bbb;
+      margin-bottom: 36px;
+      font-weight: 500;
+      user-select: none;
+    }
+    .download-instructions {
+      background: #111111cc;
+      border-radius: 16px;
+      padding: 30px 35px;
+      color: #ddd;
+      box-shadow: 0 0 30px #ffd70055;
+      text-align: left;
+      font-weight: 600;
+      line-height: 1.4;
+      user-select: none;
+      transition: box-shadow 0.3s ease;
+      max-width: 760px;
+      margin: 0 auto 45px auto;
+    }
+    .download-instructions:hover {
+      box-shadow: 0 0 45px #ffd700aa;
+    }
+    .download-instructions ol {
+      padding-left: 20px;
+      margin: 0;
+    }
+    .download-instructions li {
+      margin-bottom: 18px;
+    }
+    .download-instructions li strong {
+      color: #FFD700;
+    }
+    .download-instructions a.btn {
+      margin-top: 26px;
+      padding: 18px 48px;
+      font-weight: 800;
+      font-size: 1.25rem;
+      color: #0a0a0a;
+      background-color: #FFD700;
+      border-radius: 16px;
+      box-shadow: 0 8px 25px rgba(255 215 0 / 0.7);
+      display: inline-block;
+      user-select: none;
+      transition:
+        background-color 0.3s ease,
+        transform 0.25s ease,
+        box-shadow 0.3s ease;
+    }
+    .download-instructions a.btn:hover,
+    .download-instructions a.btn:focus {
+      background-color: #e6c200;
+      box-shadow: 0 10px 35px rgba(255 215 0 / 0.9);
+      transform: scale(1.08);
+      outline: none;
+    }
+
+    /* FAQ */
+    section.faq {
+      max-width: 760px;
+      margin: 0 auto 90px auto;
+      padding: 0 20px;
+      text-align: left;
+      user-select: none;
+    }
+    section.faq h2 {
+      font-size: 2.8rem;
+      margin-bottom: 22px;
+      color: #FFD700;
+      text-shadow: 0 0 10px #ffd700cc;
+      letter-spacing: 1.5px;
+      text-align: center;
+    }
+    .faq h3 {
+      cursor: pointer;
+      padding: 18px 24px;
+      background: #222222;
+      margin-bottom: 14px;
+      border-radius: 14px;
+      color: #FFD700;
+      font-weight: 700;
+      user-select: none;
+      box-shadow: 0 0 10px #ffd700aa inset;
+      transition: background-color 0.3s ease;
+    }
+    .faq h3:hover,
+    .faq h3:focus-visible {
+      background: #333333;
+      outline: none;
+      box-shadow: 0 0 20px #ffd700ee inset;
+    }
+    .faq-content {
+      max-height: 0;
+      overflow: hidden;
+      background: #111111;
+      padding: 0 24px;
+      border-radius: 0 0 14px 14px;
+      color: #ccc;
+      font-weight: 500;
+      font-size: 1.05rem;
+      line-height: 1.5;
+      transition: max-height 0.4s ease, padding 0.35s ease;
+    }
+    .faq-content.open {
+      padding: 18px 24px;
+      max-height: 400px;
+    }
+
+    /* TESTIMONIAL */
+    .testimonial {
+      max-width: 760px;
+      margin: 0 auto 80px auto;
+      background: #1a1a1a;
+      border: 2px solid #FFD700;
+      border-radius: 18px;
+      padding: 30px 40px;
+      color: #ffd700;
+      font-weight: 700;
+      font-size: 1.25rem;
+      text-align: center;
+      user-select: none;
+      box-shadow: 0 0 25px #ffd700bb;
+      letter-spacing: 1.1px;
+      font-style: italic;
+      line-height: 1.4;
+      position: relative;
+    }
+    .testimonial::before {
+      content: "“";
+      font-size: 5rem;
+      position: absolute;
+      top: 10px;
+      left: 20px;
+      opacity: 0.2;
+      font-weight: 900;
+      color: #ffd700;
+      user-select: none;
+      pointer-events: none;
+    }
+    .testimonial::after {
+      content: "”";
+      font-size: 5rem;
+      position: absolute;
+      bottom: 10px;
+      right: 20px;
+      opacity: 0.2;
+      font-weight: 900;
+      color: #ffd700;
+      user-select: none;
+      pointer-events: none;
+    }
+
+    /* FOOTER */
+    footer {
+      background: #111111;
+      text-align: center;
+      padding: 28px 15px;
+      font-size: 0.9rem;
+      color: #777777;
+      user-select: none;
+      letter-spacing: 0.7px;
+      border-top: 1px solid #222222;
+      box-shadow: inset 0 5px 15px rgb(255 215 0 / 0.15);
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 600px) {
+      nav {
+        padding: 15px 20px;
+      }
+      nav ul {
+        gap: 16px;
+      }
+      .hero-content h1 {
+        font-size: 2.8rem;
+      }
+      .download-instructions {
+        padding: 22px 25px;
+      }
+      .download-instructions a.btn {
+        padding: 14px 32px;
+        font-size: 1.1rem;
+      }
+      section.faq h3 {
+        padding: 14px 18px;
+        font-size: 1.05rem;
+      }
+      .faq-content {
+        font-size: 1rem;
+        padding: 0 18px;
+      }
+      .faq-content.open {
+        padding: 14px 18px;
+      }
+      .testimonial {
+        font-size: 1.1rem;
+        padding: 22px 26px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <nav role="navigation" aria-label="Primary navigation">
+    <div class="logo" aria-label="Cxmply Logo">Cxmply</div>
+    <ul>
+      <li><a href="index.html" tabindex="0">Home</a></li>
+      <li><a href="pricing.html" tabindex="0">Pricing</a></li>
+      <li><a href="download.html" aria-current="page" tabindex="0">Download</a></li>
+    </ul>
+  </nav>
+
+  <header class="hero" role="banner">
+    <div class="hero-content">
+      <h1>Download Cxmply</h1>
+      <a href="index.html" class="btn-outline" role="link" tabindex="0">← Back Home</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="download" id="download" tabindex="-1" aria-label="Download Cxmply section">
+      <h2>📥 Get Started with Cxmply</h2>
+      <p>
+        Join the official Cxmply Discord to download the latest versions, get updates, and receive expert support.
+      </p>
+
+      <div class="download-instructions" aria-label="Download instructions">
+        <ol>
+          <li>Click the <strong>Join Discord</strong> button below to join our community.</li>
+          <li>Navigate to the <em>#downloads</em> channel once you're inside.</li>
+          <li>Download the version compatible with your Minecraft client.</li>
+          <li>Follow the included installation guide for easy setup.</li>
+          <li>Need help? Our support team is active and ready in <em>#support</em>.</li>
+        </ol>
+
+        <a href="https://discord.gg/qZp8XQCmTK" target="_blank" rel="noopener noreferrer" class="btn" role="button" aria-label="Join Cxmply Discord">
+          Join Discord
+        </a>
+      </div>
+    </section>
+
+    <section class="faq" aria-label="Frequently Asked Questions">
+      <h2>❓ Frequently Asked Questions</h2>
+
+      <h3 tabindex="0" aria-expanded="false" aria-controls="faq1" id="faq1-label" role="button">Is Cxmply safe to use?</h3>
+      <div id="faq1" class="faq-content" role="region" aria-labelledby="faq1-label">
+        Yes! Cxmply is 100% safe, free from viruses, and only optimizes your Minecraft client and system settings.
+      </div>
+
+      <h3 tabindex="0" aria-expanded="false" aria-controls="faq2" id="faq2-label" role="button">Which Minecraft versions are supported?</h3>
+      <div id="faq2" class="faq-content" role="region" aria-labelledby="faq2-label">
+        Cxmply primarily supports 1.7 through 1.8.9 PvP versions with optimized settings, but many features also help newer versions.
+      </div>
+
+      <h3 tabindex="0" aria-expanded="false" aria-controls="faq3" id="faq3-label" role="button">Can I use Cxmply on laptops?</h3>
+      <div id="faq3" class="faq-content" role="region" aria-labelledby="faq3-label">
+        Absolutely! Cxmply is designed to boost performance on both desktops and laptops with customizable settings.
+      </div>
+
+      <h3 tabindex="0" aria-expanded="false" aria-controls="faq4" id="faq4-label" role="button">Do I need technical skills to use Cxmply?</h3>
+      <div id="faq4" class="faq-content" role="region" aria-labelledby="faq4-label">
+        No technical knowledge is required! Our one-click installers and easy guides make it accessible for all players.
+      </div>
+    </section>
+
+    <section class="testimonial" aria-label="User Testimonial">
+      “Using Cxmply gave me a noticeable FPS boost instantly. It’s my secret weapon for every PvP match!” — PvP Pro Player
+    </section>
+  </main>
+
+  <footer role="contentinfo">
+    <p>© 2025 Cxmply. Built for the Minecraft PvP community.</p>
+  </footer>
+
+  <script>
+    // FAQ Accordion with smooth slide and ARIA support
+    document.querySelectorAll('.faq h3').forEach(header => {
+      header.addEventListener('click', () => {
+        const content = header.nextElementSibling;
+        const expanded = header.getAttribute('aria-expanded') === 'true';
+        
+        // Close all others
+        document.querySelectorAll('.faq h3').forEach(h => {
+          h.setAttribute('aria-expanded', 'false');
+          h.nextElementSibling.classList.remove('open');
+        });
+
+        if (!expanded) {
+          header.setAttribute('aria-expanded', 'true');
+          content.classList.add('open');
+          content.focus();
+        }
+      });
+
+      header.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          header.click();
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>
